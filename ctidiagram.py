@@ -103,7 +103,7 @@ def logo():
 
 def main():
 
-    parser = argparse.ArgumentParser(description ="Convert YAML file to CTI diagram")
+    parser = argparse.ArgumentParser(description ="Convert YAML file to attack flow diagram")
     parser.add_argument("yamlfile", help="YAML file to convert")
     parser.add_argument("-o","--output", help="File to save the output",  type=argparse.FileType('w'))
     parser.add_argument("-r","--resources", help="Directory to get images, default is imgs/", default = "imgs/")
@@ -135,10 +135,10 @@ def main():
     
 
 
-    diagrama = doc['diagrama']
+    diagrama = doc['diagram']
 
 
-    mdate = doc.get("fecha", " ")
+    mdate = doc.get("date", " ")
     mtitle = doc.get("title", "Here is your title!")
 
 
@@ -264,11 +264,6 @@ def main():
 if __name__ == "__main__":
     main()
     
-
-
-
-
-
 
 
 
