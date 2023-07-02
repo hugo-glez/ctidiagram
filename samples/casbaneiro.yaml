@@ -1,0 +1,59 @@
+date: 7 de junio de 2023 
+title: Flujo de infección de Casbaneiro
+diagram:
+ - step:
+   icon: 
+   - phishing
+   - htmlfile
+   text: Correo de phishing con adjunto HTML
+   description: El usuario recibe un correo con el pretexto de una supuesta factura
+   iocs:
+   -  4a6f5246c0921d88cf504fcbdc24f0b1
+   
+ - step:
+   icon: 
+   - redireccion
+   text: Redirecciones
+   description: Al abrir el archivo html realiza varias redirecciones y nos muestra una opción para descargar una supuesta factura
+   iocs:
+   - https[:]//facturamayo[.]sbs/m/archivos[.]pdf[.]html
+   - http[:]//facturaion[.]westeurope[.]cloudapp[.]azure[.]com/m/documento-pdf[.]html
+   
+ - step:
+   icon: 
+   - descarga
+   - rarfile
+   - cmdfile
+   text: Descarga de un RAR con un archivo CMD interno
+   description: El archivo RAR contiene un script CMD
+   iocs:
+   - http[:]//facturaion[.]westeurope[.]cloudapp[.]azure[.]com/m/index[.]php?va
+   
+ - step:
+   icon: 
+   - script
+   - descarga
+   - powershell
+   text: Script CMD ejecuta PowerShell
+   description: El script CMD descarga un payload de github y ejecuta el PowerShell
+   iocs:
+   - https[:]//raw[.]githubusercontent[.]com/facts2605/facturas/main/1
+
+ - step:
+   icon: 
+   - script
+   - zipfile
+   - autoitfile
+   text: Script PowerShell infecta el host
+   description: El script PowerShell descarga un archivo ZIP que contiene un interprete de AutoIt y ejecuta un script para infectar el host
+   iocs:
+   - http[:]//51[.]38[.]235[.]152/20/a/m/m[.]zip
+   - c56b5f0201a3b3de53e561fe76912bfd  exe.txt
+
+ - step:
+   icon: c2
+   text: Malware en memoria
+   description: El troyano se queda en memoria para robar la inforamci&oacute;n
+   iocs:
+   -  .
+

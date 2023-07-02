@@ -1,0 +1,150 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Stardos+Stencil">
+<style>
+    
+td {   
+    text-align: center; 
+}
+
+table {
+  border-collapse: collapse;
+  border: 1px solid;
+}
+
+tr.thick {
+  font-weight: bold;
+  font-size:14;
+}
+
+tr.icons {
+  font-family: "Stardos+Stencil","Times New Roman", Times, serif;
+  font-weight: bold;
+  font-size:32px;
+}
+
+tr.iocs {
+  font-family: "Times New Roman", Times, serif;
+  font-weight: italic;
+  font-size:14px;
+}
+
+</style>
+</head>
+<body>
+<center>
+
+
+    <h1>Here is your title!</h1>
+    <h3> Original date: </h3>
+    <br><br>
+    <table width="90%">
+    
+<tr class="icons">
+<td>
+1
+</td><td></td>
+<td>
+2
+</td><td></td>
+<td>
+3
+</td><td></td>
+<td>
+4
+</td><td></td>
+<td>
+5
+</td>
+</tr>
+<tr class="thick">
+<td>
+<img src='../imgs/phishing.png'>
+<img src='../imgs/pdffile.png'>
+</td><td><img src='../imgs/flecha.png'> </td>
+<td>
+<img src='../imgs/descarga.png'>
+<img src='../imgs/zipfile.png'>
+</td><td><img src='../imgs/flecha.png'> </td>
+<td>
+<img src='../imgs/zipfile.png'>
+<img src='../imgs/exefile.png'>
+<img src='../imgs/xmlfile.png'>
+</td><td><img src='../imgs/flecha.png'> </td>
+<td>
+<img src='../imgs/exefile.png'>
+<img src='../imgs/descarga.png'>
+</td><td><img src='../imgs/flecha.png'> </td>
+<td>
+<img src='../imgs/c2.png'>
+</td>
+</tr>
+<tr class="thick">
+<td>
+Correo de phishing suplantando a CFE
+</td><td></td>
+<td>
+Descarga de ZIP
+</td><td></td>
+<td>
+Contenido del ZIP
+</td><td></td>
+<td>
+El EXE descarga el payload
+</td><td></td>
+<td>
+Malware en memoria
+</td>
+</tr>
+<tr>
+<td>
+El usuario recibe un correo supuestamente de CFE con un adjunto en PDF con blur, hay que dar clic para verlo.
+</td><td></td>
+<td>
+Al seguir el enlace se tienen varias redirecciones para descargar un ZIP de dropbox
+</td><td></td>
+<td>
+El archivo ZIP contiene un executable disfrazado de PDF y un XML que es una DLL leg&iacute;tima
+</td><td></td>
+<td>
+El EXE simula ser un captcha para PDF, descarga un archivo compreso con WinHKI y configuraciones.
+</td><td></td>
+<td>
+El troyano se queda en memoria para robar la inforamci&oacute;n
+</td>
+</tr>
+<tr class="iocs">
+<td>
+2ac545ddd1391d5928537c2281cd3b31
+</td><td></td>
+<td>
+hxxps://cerveceriacachanilla[.australiacentral[.cloudapp[.azure[.com/<br>hxxps://rojasdelcadirectomanwil[.canadacentral[.cloudapp[.azure[.com/<br>hxxps://www[.dropbox[.com/s/dl/rrv1cvynah97m5u/Arc_digital_AdjuntosJUHMFOITQMVMZPFryydd[.zip
+</td><td></td>
+<td>
+
+</td><td></td>
+<td>
+hxxp://3[.137[.213[.102:6364/<br>hxxp://3[.137[.213[.102:30741/OQRLSstyA[.xml<br>hxxp://3[.137[.213[.102:30741/OQRLSstyA[.xml
+</td><td></td>
+<td>
+2b9626addd09e3c8621d5efc70b3b83c<br>NvidlanDriverUpgradeUtilitygtComprehensiveDriverManager.exe
+</td>
+</tr>
+<tr>
+<td></td><td></td>
+<td></td><td></td>
+<td></td><td></td>
+<td></td><td></td>
+<td style="text-align:right"><img src="../imgs/logo.png"></td>
+</tr>
+</table>
+<br><br>Generated on 2023-07-02, 13:29 by CTIdiagrams
+
+</center>
+</body>
+</html>
+

@@ -1,0 +1,168 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Stardos+Stencil">
+<style>
+    
+td {   
+    text-align: center; 
+}
+
+table {
+  border-collapse: collapse;
+  border: 1px solid;
+}
+
+tr.thick {
+  font-weight: bold;
+  font-size:14;
+}
+
+tr.icons {
+  font-family: "Stardos+Stencil","Times New Roman", Times, serif;
+  font-weight: bold;
+  font-size:32px;
+}
+
+tr.iocs {
+  font-family: "Times New Roman", Times, serif;
+  font-weight: italic;
+  font-size:14px;
+}
+
+</style>
+</head>
+<body>
+<center>
+
+
+    <h1>Flujo de infección de Casbaneiro</h1>
+    <h3> Original date:7 de junio de 2023</h3>
+    <br><br>
+    <table width="90%">
+    
+<tr class="icons">
+<td>
+1
+</td><td></td>
+<td>
+2
+</td><td></td>
+<td>
+3
+</td><td></td>
+<td>
+4
+</td><td></td>
+<td>
+5
+</td><td></td>
+<td>
+6
+</td>
+</tr>
+<tr class="thick">
+<td>
+<img src='../imgs/phishing.png'>
+<img src='../imgs/htmlfile.png'>
+</td><td><img src='../imgs/flecha.png'> </td>
+<td>
+<img src='../imgs/redireccion.png'>
+</td><td><img src='../imgs/flecha.png'> </td>
+<td>
+<img src='../imgs/descarga.png'>
+<img src='../imgs/rarfile.png'>
+<img src='../imgs/cmdfile.png'>
+</td><td><img src='../imgs/flecha.png'> </td>
+<td>
+<img src='../imgs/script.png'>
+<img src='../imgs/descarga.png'>
+<img src='../imgs/powershell.png'>
+</td><td><img src='../imgs/flecha.png'> </td>
+<td>
+<img src='../imgs/script.png'>
+<img src='../imgs/zipfile.png'>
+<img src='../imgs/autoitfile.png'>
+</td><td><img src='../imgs/flecha.png'> </td>
+<td>
+<img src='../imgs/c2.png'>
+</td>
+</tr>
+<tr class="thick">
+<td>
+Correo de phishing con adjunto HTML
+</td><td></td>
+<td>
+Redirecciones
+</td><td></td>
+<td>
+Descarga de un RAR con un archivo CMD interno
+</td><td></td>
+<td>
+Script CMD ejecuta PowerShell
+</td><td></td>
+<td>
+Script PowerShell infecta el host
+</td><td></td>
+<td>
+Malware en memoria
+</td>
+</tr>
+<tr>
+<td>
+El usuario recibe un correo con el pretexto de una supuesta factura
+</td><td></td>
+<td>
+Al abrir el archivo html realiza varias redirecciones y nos muestra una opción para descargar una supuesta factura
+</td><td></td>
+<td>
+El archivo RAR contiene un script CMD
+</td><td></td>
+<td>
+El script CMD descarga un payload de github y ejecuta el PowerShell
+</td><td></td>
+<td>
+El script PowerShell descarga un archivo ZIP que contiene un interprete de AutoIt y ejecuta un script para infectar el host
+</td><td></td>
+<td>
+El troyano se queda en memoria para robar la inforamci&oacute;n
+</td>
+</tr>
+<tr class="iocs">
+<td>
+4a6f5246c0921d88cf504fcbdc24f0b1
+</td><td></td>
+<td>
+https[:]//facturamayo[.]sbs/m/archivos[.]pdf[.]html<br>http[:]//facturaion[.]westeurope[.]cloudapp[.]azure[.]com/m/documento-pdf[.]html
+</td><td></td>
+<td>
+http[:]//facturaion[.]westeurope[.]cloudapp[.]azure[.]com/m/index[.]php?va
+</td><td></td>
+<td>
+https[:]//raw[.]githubusercontent[.]com/facts2605/facturas/main/1
+</td><td></td>
+<td>
+http[:]//51[.]38[.]235[.]152/20/a/m/m[.]zip<br>c56b5f0201a3b3de53e561fe76912bfd  exe.txt
+</td><td></td>
+<td>
+.
+</td>
+</tr>
+<tr>
+<td></td><td></td>
+<td></td><td></td>
+<td></td><td></td>
+<td></td><td></td>
+<td></td><td></td>
+<td style="text-align:right"><img src="../imgs/logo.png"></td>
+</tr>
+</table>
+<br><br>Generated on 2023-07-02, 13:29 by CTIdiagrams
+
+</center>
+</body>
+</html>
+

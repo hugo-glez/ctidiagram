@@ -1,0 +1,43 @@
+diagram:
+ - step:
+   icon: phishing
+   text: Correo electronico de phishing
+   description: El usuario recibe un correo electronico con un enalce que lo redirecciona a una URL maliciosa
+   iocs:
+   
+ - step:
+   icon: descarga
+   text: Descarga de archivo ZIP
+   description: El usuario al hacer clic en el enlace malicoso comienza la descarga de un archivo ZIP
+   iocs:
+   
+ - step:
+   icon: 
+   - zipfile
+   - msifile
+   text: Ejecucion de archivo MSI
+   description: El archivo ZIP contiene un archivo MSI que al ser ejecutado comienza la cadena de infeccion   
+   iocs:
+   
+ - step:
+   icon: 
+   - exefile
+   - ahkfile
+   - dllfile
+   text: Proceso de infeccion MSI
+   description:
+     El archivo ZIP contiene un archivo MSI que al ser ejecutado comienza la cadena de infeccion
+     El archivo MSI realiza reconocimeinto del entorno y la descarga de un archivo ZIP que contiene AHK, un script y la DLL maliciosa
+   iocs:
+   
+ - step:
+   icon: c2
+   text: Comunicacion C2
+   description: El troyano comienza a mostrar ventanas falsas de portales bancarios para el robo de informacion del usuario     
+   iocs:
+   - 2[.2[.2[.2
+   
+   
+   
+   
+   

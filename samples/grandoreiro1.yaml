@@ -1,0 +1,49 @@
+diagram:
+ - step:
+   icon: 
+   - phishing
+   - pdffile
+   text: Correo de phishing suplantando a CFE
+   description: El usuario recibe un correo supuestamente de CFE con un adjunto en PDF con blur, hay que dar clic para verlo.
+   iocs:
+   - 2ac545ddd1391d5928537c2281cd3b31  
+   
+ - step:
+   icon: 
+   - descarga
+   - zipfile
+   text: Descarga de ZIP
+   description: Al seguir el enlace se tienen varias redirecciones para descargar un ZIP de dropbox
+   iocs:
+   - hxxps://cerveceriacachanilla[.australiacentral[.cloudapp[.azure[.com/
+   - hxxps://rojasdelcadirectomanwil[.canadacentral[.cloudapp[.azure[.com/
+   - hxxps://www[.dropbox[.com/s/dl/rrv1cvynah97m5u/Arc_digital_AdjuntosJUHMFOITQMVMZPFryydd[.zip
+   
+ - step:
+   icon: 
+   - zipfile
+   - exefile
+   - xmlfile
+   text: Contenido del ZIP
+   description: El archivo ZIP contiene un executable disfrazado de PDF y un XML que es una DLL leg&iacute;tima
+   iocs:
+   
+ - step:
+   icon: 
+   - exefile
+   - descarga
+   text: El EXE descarga el payload
+   description:
+     El EXE simula ser un captcha para PDF, descarga un archivo compreso con WinHKI y configuraciones.
+   iocs:
+   - hxxp://3[.137[.213[.102:6364/
+   - hxxp://3[.137[.213[.102:30741/OQRLSstyA[.xml
+   - hxxp://3[.137[.213[.102:30741/OQRLSstyA[.xml
+   
+ - step:
+   icon: c2
+   text: Malware en memoria
+   description: El troyano se queda en memoria para robar la inforamci&oacute;n
+   iocs:
+   - 2b9626addd09e3c8621d5efc70b3b83c 
+   - NvidlanDriverUpgradeUtilitygtComprehensiveDriverManager.exe 
