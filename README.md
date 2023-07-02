@@ -1,4 +1,4 @@
-* CTIDiagram *
+# CTIDiagram #
 
 This is an intent to product attack diagrams in a quick and standar way.
 
@@ -11,8 +11,8 @@ I will be updating samples to showcase the usage of it.
 
 H.
 
-Some examples:
+## Some examples: ##
 
 ![Casbaneiro](https://github.com/hugo-glez/ctidiagram/blob/main/results/casbaneiro.png)
-![Mekotio](./samples/mekotio.png)
+![Mekotio](https://github.com/hugo-glez/ctidiagram/blob/main/results/mekotio.png)
 
