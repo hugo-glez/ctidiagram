@@ -13,6 +13,6 @@ H.
 
 Some examples:
 
-![Casbaneiro](./samples/casbaneiro.png)
+![Casbaneiro](https://github.com/hugo-glez/ctidiagram/blob/main/results/casbaneiro.png)
 ![Mekotio](./samples/mekotio.png)
 
