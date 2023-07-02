@@ -1,4 +1,4 @@
-= CTIDiagram =
+* CTIDiagram *
 
 This is an intent to product attack diagrams in a quick and standar way.
 
@@ -10,3 +10,9 @@ I will be updating samples to showcase the usage of it.
 
 
 H.
+
+Some examples:
+
+![Casbaneiro](./samples/casbaneiro.png)
+![Mekotio](./samples/mekotio.png)
+
