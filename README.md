@@ -1,6 +1,6 @@
 # CTIDiagram #
 
-This is an intent to product attack diagrams in a quick and standar way.
+This is an intent to produce attack diagrams in a quick and standar way.
 
 Basically it converts yaml file describing the attack flow of some malware to an html with icons, iocs and ttps, then we can share them as html files or make a screenshot and add them to the CTI reports.
 
