@@ -2,10 +2,6 @@
 # -*- coding: utf-8 -*-
 # Copyright (C) 2023 - Hugo Gonzalez (@hugo_glez)
 # This file is part of CTIdiagram
-
-
-__version__ = '2.0'
-
 """
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use
@@ -19,9 +15,6 @@ under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
 CONDITIONS OF ANY KIND, either express or implied. See the License for the
 specific language governing permissions and limitations under the License.
 
-"""
-
-"""
 
 CTIdiagram is basically a way to convert a YAML file with the description of the 
 attack flow to a web page with a graphical representation.
@@ -32,19 +25,20 @@ Then you just need to screenshoot the part of the diagram and include in your
 documentation or in your twitter account
 
 """
-
-import yaml  
 import sys
 from datetime import datetime
-import argparse 
+import argparse
 import base64
 import uuid
+import yaml
 
+
+__version__ = "2.0"
 
 encoded_resources = {}
 
 
-header = """
+HEADER = """
 <!DOCTYPE html>
 <html>
 <head>
@@ -177,7 +171,7 @@ tr.iocs {
 """
 
 
-footer = """
+FOOTER = """
 </center>
 
 <script>
@@ -211,224 +205,236 @@ span.onclick = function() {
 
 
 def logo():
-    print("""
- _____ _____ _____   _ _                                 
-/  __ \_   _|_   _| | (_)                                
-| /  \/ | |   | | __| |_  __ _  __ _ _ __ __ _ _ __ ___  
-| |     | |   | |/ _` | |/ _` |/ _` | '__/ _` | '_ ` _ \ 
-| \__/\_| |_  | | (_| | | (_| | (_| | | | (_| | | | | | |
- \____/\___/  \_/\__,_|_|\__,_|\__, |_|  \__,_|_| |_| |_|
-                                __/ |                    
-                               |___/            @hugo_glez         
-    
     """
-    )
+    Function to print the logo of the program
+    """
+    logo_str = r"""
+  _____ _____ _____   _ _                                 
+ /  __ \_   _|_   _| | (_)                                
+ | /  \/ | |   | | __| |_  __ _  __ _ _ __ __ _ _ __ ___  
+ | |     | |   | |/ _` | |/ _` |/ _` | '__/ _` | '_ ` _ \ 
+ | \__/\_| |_  | | (_| | | (_| | (_| | | | (_| | | | | | |
+  \____/\___/  \_/\__,_|_|\__,_|\__, |_|  \__,_|_| |_| |_|
+                                 __/ |                    
+                                |___/            @hugo_glez         
+    """
+    print(logo_str)
+
 
 def print_resources():
-    
-    print ("<script>")
-    for k,v in encoded_resources.items():
-        print ("const "+k+" = \"",v+"\";")
-    print ("</script>")
+    """
+    Function to print the resources embeded
+    """
+
+    print("<script>")
+    for k, v in encoded_resources.items():
+        print("const " + k + ' = "', v + '";')
+    print("</script>")
 
 
 def convert_image_2_base64(filep, token):
-    #print(filep)
-    with open(filep,'rb') as f:
+    """
+    Function to code image file to base64
+    """
+    # print(filep)
+    with open(filep, "rb") as f:
         rawbytes = f.read()
     encoded = base64.b64encode(rawbytes)
-    encoded_string = encoded.decode('utf-8')
-    encoded_resources[token]="data:image/png;base64," + encoded_string
-    #encoded_resources[token]=filep
-    
+    encoded_string = encoded.decode("utf-8")
+    encoded_resources[token] = "data:image/png;base64," + encoded_string
+    # encoded_resources[token]=filep
 
 
 def print_icons(resource_folder, data):
+    """
+    Function to print the icons and the javascript code to show a modal with the screenshot
+    """
     if type(data) == list:
         for ico in data:
             if type(ico) == dict:
                 nico = list(ico.keys())[0]
-                token = "T"+str(uuid.uuid4())[:6]
-                print ("<a href=\"javascript:ShowModal('"+token+"')\"><img src='"+resource_folder+nico+".png'></a>")
-                convert_image_2_base64(ico[nico][0],token)
-                
+                token = "T" + str(uuid.uuid4())[:6]
+                print(
+                    "<a href=\"javascript:ShowModal('"
+                    + token
+                    + "')\"><img src='"
+                    + resource_folder
+                    + nico
+                    + ".png'></a>"
+                )
+                convert_image_2_base64(ico[nico][0], token)
+
             else:
-                print ("<img src='"+resource_folder+ico+".png'>")
+                print("<img src='" + resource_folder + ico + ".png'>")
     else:
-       if type(data) == dict:
-           ndata = list(data.keys())[0]
-           print ("<img src='"+resource_folder+ndata+".png'>")
-       else:
-           print ("<a href='script'><img src='"+resource_folder+data+".png'></a>")
+        if type(data) == dict:
+            ndata = list(data.keys())[0]
+            print("<img src='" + resource_folder + ndata + ".png'>")
+        else:
+            print("<a href='script'><img src='" + resource_folder + data + ".png'></a>")
+
 
 def main():
+    """
+    Main function
+    """
 
-    parser = argparse.ArgumentParser(description ="Convert YAML file to CTI diagram")
+    parser = argparse.ArgumentParser(description="Convert YAML file to CTI diagram")
     parser.add_argument("yamlfile", help="YAML file to convert")
-    parser.add_argument("-o","--output", help="File to save the output",  type=argparse.FileType('w'))
-    parser.add_argument("-r","--resources", help="Directory to get images, default is imgs/", default = "imgs/")
-    parser.add_argument("--iocs", help="Write also IoCs", action='store_true')
-    parser.add_argument("--ttps", help="Write also TTPs", action='store_true')
+    parser.add_argument(
+        "-o", "--output", help="File to save the output", type=argparse.FileType("w")
+    )
+    parser.add_argument(
+        "-r",
+        "--resources",
+        help="Directory to get images, default is imgs/",
+        default="imgs/",
+    )
+    parser.add_argument("--iocs", help="Write also IoCs", action="store_true")
+    parser.add_argument("--ttps", help="Write also TTPs", action="store_true")
     args = parser.parse_args()
-    
-    
+
     resource_folder = args.resources
-    
+
     if args.output:
         logo()
         orig_stdout = sys.stdout
         f = args.output
         sys.stdout = f
 
-
-    
     try:
-        fichero = open(args.yamlfile)
-            
-    except:
+        with open(args.yamfile,"r") as fichero:
+            doc = yaml.load(fichero, Loader=yaml.BaseLoader)
+
+    except FileNotFoundError:
         print("Error opening the file")
-        fichero.close()
         sys.exit(-1)
-        
-    doc=yaml.load(fichero, Loader=yaml.BaseLoader)
-    fichero.close        
-    
 
 
-    diagrama = doc['diagrama']
-    #print (type(diagrama))
-    #print (diagrama)
-
+    diagrama = doc["diagrama"]
+    # print (type(diagrama))
+    # print (diagrama)
 
     mdate = doc.get("fecha", " ")
     mtitle = doc.get("title", "Here is your title!")
 
-
-
-    print (header)
-    print ("""
-    <h1>"""+ mtitle + """</h1>
-    <h3> Original date:"""+mdate+"""</h3>
+    print(HEADER)
+    print(
+        """
+    <h1>"""
+        + mtitle
+        + """</h1>
+    <h3> Original date:"""
+        + mdate
+        + """</h3>
     <br><br>
     <table width="90%">
-    """)
+    """
+    )
 
-
-    #print numbers
+    # print numbers
     num = 1
-    print ('<tr class="icons">')
+    print('<tr class="icons">')
     for a in diagrama[:-1]:
-        print ("<td>")
-        print (num)
+        print("<td>")
+        print(num)
         num += 1
-        print ("</td><td></td>")
-    print ("<td>")
-    print (num)
-    print ('</td>')
-    print ('</tr>')
+        print("</td><td></td>")
+    print("<td>")
+    print(num)
+    print("</td>")
+    print("</tr>")
 
-    #print icons
-    print ('<tr class="thick">')
+    # print icons
+    print('<tr class="thick">')
     for a in diagrama[:-1]:
-        print ("<td>")
+        print("<td>")
         ticon = a.get("icon", "default")
         print_icons(resource_folder, ticon)
-        print ("</td><td><img src='"+resource_folder+"flecha.png'> </td>")
-    print ("<td>")
+        print("</td><td><img src='" + resource_folder + "flecha.png'> </td>")
+    print("<td>")
     ticon = diagrama[-1].get("icon", "default")
     print_icons(resource_folder, ticon)
-    print ('</td>')
-    print ('</tr>')
-
+    print("</td>")
+    print("</tr>")
 
     # print titles
-    print ('<tr class="thick">')
+    print('<tr class="thick">')
     for a in diagrama[:-1]:
-        print ("<td>")
-        print (a.get('text', " "))
-        print ("</td><td></td>")
-    print ("<td>")
-    print (diagrama[-1].get('text', " "))
-    print ('</td>')
-    print ('</tr>')
+        print("<td>")
+        print(a.get("text", " "))
+        print("</td><td></td>")
+    print("<td>")
+    print(diagrama[-1].get("text", " "))
+    print("</td>")
+    print("</tr>")
 
     # print description
-    print ('<tr>')
+    print("<tr>")
     for a in diagrama[:-1]:
-        print ("<td>")
-        print (a.get('description'," "))
-        print ("</td><td></td>")
-    print ("<td>")
-    print (diagrama[-1].get('description', " "))
-    print ('</td>')
-    print ('</tr>')
-
+        print("<td>")
+        print(a.get("description", " "))
+        print("</td><td></td>")
+    print("<td>")
+    print(diagrama[-1].get("description", " "))
+    print("</td>")
+    print("</tr>")
 
     if args.iocs:
-        #print iocs
-        print ('<tr class="iocs">')
+        # print iocs
+        print('<tr class="iocs">')
         for a in diagrama[:-1]:
-            print ("<td>")
-            tiocs = a.get('iocs', None)
+            print("<td>")
+            tiocs = a.get("iocs", None)
             if not tiocs is None:
-                print ("<br>".join(tiocs))
-            print ("</td><td></td>")
-        print ("<td>")
-        tiocs = diagrama[-1].get('iocs', None)
+                print("<br>".join(tiocs))
+            print("</td><td></td>")
+        print("<td>")
+        tiocs = diagrama[-1].get("iocs", None)
         if not tiocs is None:
-            print ("<br>".join(tiocs))
-        print ('</td>')
-        print ('</tr>')
+            print("<br>".join(tiocs))
+        print("</td>")
+        print("</tr>")
 
     if args.ttps:
-        #print ttps
-        print ('<tr class="iocs">')
+        # print ttps
+        print('<tr class="iocs">')
         for a in diagrama[:-1]:
-            tttps = a.get('ttps', None)
-            print ("<td>")
+            tttps = a.get("ttps", None)
+            print("<td>")
             if not tttps is None:
-                print ("<br>".join(tttps))
-            print ("</td><td></td>")
-        print ("<td>")
-        tttps = diagrama[-1].get('ttps', None)
+                print("<br>".join(tttps))
+            print("</td><td></td>")
+        print("<td>")
+        tttps = diagrama[-1].get("ttps", None)
         if not tttps is None:
-            print ("<br>".join(tttps))
-        print ('</td>')
-        print ('</tr>')
+            print("<br>".join(tttps))
+        print("</td>")
+        print("</tr>")
 
-
-    #print logo
-    print ('<tr>')
+    # print logo
+    print("<tr>")
     for a in diagrama[:-1]:
-        print ("<td></td><td></td>")
-    print ('<td style="text-align:right"><img src="'+resource_folder+'logo.png"></td>')
-    print ('</tr>')
-    print ('</table>')
+        print("<td></td><td></td>")
+    print(
+        '<td style="text-align:right"><img src="' + resource_folder + 'logo.png"></td>'
+    )
+    print("</tr>")
+    print("</table>")
 
-    print('<br><br>Generated on '+datetime.now().strftime("%Y-%m-%d, %H:%M") + ' by CTIdiagrams')
+    print(
+        "<br><br>Generated on "
+        + datetime.now().strftime("%Y-%m-%d, %H:%M")
+        + " by CTIdiagrams"
+    )
 
     print_resources()
-    print (footer)
+    print(FOOTER)
 
     if args.output:
         sys.stdout = orig_stdout
         f.close()
 
 
-
 if __name__ == "__main__":
     main()
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
