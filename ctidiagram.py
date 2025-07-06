@@ -412,7 +412,6 @@ def main():
         print("</td>")
         print("</tr>")
 
-    # print logo
     print("<tr>")
     for a in diagrama[:-1]:
         print("<td></td><td></td>")

@@ -14,7 +14,7 @@ diagram:
  - step:
    icon: 
    - zipfile
-   - msifile
+   - msifile-bug
    text: Ejecucion de archivo MSI
    description: El archivo ZIP contiene un archivo MSI que al ser ejecutado comienza la cadena de infeccion   
    iocs:
@@ -23,7 +23,7 @@ diagram:
    icon: 
    - exefile
    - ahkfile
-   - dllfile
+   - dllfile-bug
    text: Proceso de infeccion MSI
    description:
      El archivo ZIP contiene un archivo MSI que al ser ejecutado comienza la cadena de infeccion
