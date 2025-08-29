@@ -1,0 +1,36 @@
+fecha: July 2025
+title: FakeCaptcha Campaign 2
+
+diagrama:    
+ - paso:
+   icon: 
+   - website:
+     - rsc/c2-site.png
+   - captcha:
+     - rsc/c2-captchacode.png
+   text: The website showed a capctha
+   description: The capchta involves the user to open a command line and execute some code
+   iocs:
+     - https://cleaning.vncomi.com/sample-page
+
+   
+ - paso:
+   icon: 
+   - powershell:
+     - rsc/c2-powershell.png
+   text: Using curl in cmd to download a file
+   description: A file is downloaded an a new webpage is open. After downloading the file is executed
+   iocs:
+   - https://alababababa.cloud/cVGvQio6.txt
+
+ - paso:
+   icon: 
+   - descarga
+   text: Probably more stages, url is down
+   description: Not available at the moment
+   
+   
+   
+
+
+

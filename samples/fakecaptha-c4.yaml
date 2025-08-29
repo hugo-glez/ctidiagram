@@ -1,0 +1,46 @@
+fecha: July 2025
+title: FakeCaptcha Campaign 4
+
+diagrama:    
+ - paso:
+   icon: 
+   - website:
+     - rsc/c4-site.png
+   - inyeccion:
+     - rsc/c4-generateiframe.png  
+   - captcha:
+     - rsc/c4-captchacode.png
+   text: The website showed a capctha, injecting generated iframe
+   description: The capchta involves the user to open a powershell terminal with shortcuts
+   iocs:
+     - https://fx3.store/
+
+   
+ - paso:
+   icon: 
+   - powershell:
+     - rsc/c4-powershell.png
+   - psfile:
+     - rsc/c4-obfuscatedfile.png
+   text: Using powershell download a media file
+   description: A file with MP4 extension is downloaded. After downloading the file is executed with powershell
+   iocs:
+   - https://e0.shop/discover.mp4
+
+ - paso:
+   icon: 
+   - c2:
+     - rsc/c4-dropper.png
+   text: .NET dropper loaded by reflection
+   description: After the dropper the payload should be the next step
+   
+ - paso:
+   icon: 
+   - payload
+   text: Final payload
+   description: Payload to compromise the infected device.
+   
+   
+
+
+

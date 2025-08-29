@@ -1,0 +1,37 @@
+fecha: July 2025
+title: FakeCaptcha Campaign 1
+
+diagrama:    
+ - paso:
+   icon: 
+   - website:
+     - rsc/c1-site.png
+   - captcha:
+     - rsc/c1-codecopy.png
+   text: The website showed a capctha
+   description: The capchta involves the user to open a command line and execute some code
+   iocs:
+     - https://car4u.ca/captha.php
+
+   
+ - paso:
+   icon: 
+   - cmd
+   - curl:
+     - rsc/c1-commandline.png
+   text: Using curl in cmd to download a file
+   description: A file is downloaded an a new webpage is open. After downloading the file is executed
+   iocs:
+      - https://security-malware.com/index.html
+
+ - paso:
+   icon: 
+   - exefile
+   text: Final payload deployed
+   description: Not available at the moment
+   
+   
+   
+
+
+

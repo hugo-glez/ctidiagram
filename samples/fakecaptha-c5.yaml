@@ -1,0 +1,28 @@
+fecha: July 2025
+title: FakeCaptcha Campaign 5
+
+diagrama:    
+ - paso:
+   icon: 
+   - website:
+     - rsc/c5-site.png
+   - captcha:
+     - rsc/c5-captchacode.png
+   text: The website showed a capctha, injecting generated iframe
+   description: The capchta involves the user to open a powershell terminal with shortcuts
+   iocs:
+
+   
+ - paso:
+   icon: 
+   - redireccion:
+     - rsc/c5-redirection.png
+   text: Redirect
+   description: Redirection to X, probably to discourage researchers
+   iocs:
+   - https://tlgrm-redirect.icu/1.txt
+
+   
+
+
+
