@@ -21,8 +21,11 @@ attack flow to a web page with a graphical representation.
 It includes icons related to the steps performed on the attack, descriptions 
 and it is possible to include IoC in the same diagram.
 
-Then you just need to screenshoot the part of the diagram and include in your
+Then you just need to screenshot the part of the diagram and include in your
 documentation or in your twitter account
+
+v2.0 option to add screenshots for each step
+v2.1 option to embed all icons and screen shots or none of them
 
 """
 import sys
@@ -33,7 +36,7 @@ import uuid
 import yaml
 
 
-__version__ = "2.0"
+__version__ = "2.1"
 
 encoded_resources = {}
 
@@ -189,6 +192,15 @@ function ShowModal(param) {
 
 }
 
+window.addEventListener('keydown', function(event) {
+  // Check if the pressed key is the Escape key
+  if (event.key === 'Escape') {
+    var modal = document.getElementById("myModal");
+    modal.style.display = 'none'; 
+    
+  }
+});
+
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
 
@@ -215,7 +227,7 @@ def logo():
  | |     | |   | |/ _` | |/ _` |/ _` | '__/ _` | '_ ` _ \ 
  | \__/\_| |_  | | (_| | | (_| | (_| | | | (_| | | | | | |
   \____/\___/  \_/\__,_|_|\__,_|\__, |_|  \__,_|_| |_| |_|
-                                 __/ |                    
+                                 __/ |        v2.1            
                                 |___/            @hugo_glez         
     """
     print(logo_str)
@@ -232,46 +244,85 @@ def print_resources():
     print("</script>")
 
 
+def return_image_2_base64(filep):
+    """
+    Function to code image file to base64
+    """
+    blank_pixel = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+    # print(filep)
+    try:
+        with open(filep, "rb") as f:
+            rawbytes = f.read()
+        encoded = base64.b64encode(rawbytes)
+        encoded_string = encoded.decode("utf-8")
+        result = "data:image/png;base64," + encoded_string
+    except FileNotFoundError:
+        # If the file does not exist create a blank pixel
+        result = "data:image/png;base64," + blank_pixel
+    return result
+
+
 def convert_image_2_base64(filep, token):
     """
     Function to code image file to base64
     """
+    blank_pixel = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
     # print(filep)
-    with open(filep, "rb") as f:
-        rawbytes = f.read()
-    encoded = base64.b64encode(rawbytes)
-    encoded_string = encoded.decode("utf-8")
-    encoded_resources[token] = "data:image/png;base64," + encoded_string
+    try:
+        with open(filep, "rb") as f:
+            rawbytes = f.read()
+        encoded = base64.b64encode(rawbytes)
+        encoded_string = encoded.decode("utf-8")
+        encoded_resources[token] = "data:image/png;base64," + encoded_string
+    except FileNotFoundError:
+        # If the file does not exist create a blank pixel
+        encoded_resources[token] = "data:image/png;base64," + blank_pixel
     # encoded_resources[token]=filep
 
 
-def print_icons(resource_folder, data):
+def print_icons(resource_folder, data, embed=False, embedall=False):
     """
     Function to print the icons and the javascript code to show a modal with the screenshot
+
+    <img src="data:image/jpeg;base64,iVBOR ...
     """
     if type(data) == list:
         for ico in data:
             if type(ico) == dict:
                 nico = list(ico.keys())[0]
-                token = "T" + str(uuid.uuid4())[:6]
+                if embed or embedall:
+                    token = "T" + str(uuid.uuid4())[:6]
+                    convert_image_2_base64(ico[nico][0], token)
+                else:
+                    token = ico[nico][0]
+
+                ricon = resource_folder + nico + ".png"
+                if embedall:
+                    ricon = return_image_2_base64(ricon)
+
                 print(
-                    "<a href=\"javascript:ShowModal('"
-                    + token
-                    + "')\"><img src='"
-                    + resource_folder
-                    + nico
-                    + ".png'></a>"
+                    "<a href=\"javascript:ShowModal('" + token + "')\">"
+                    + "<img src='" + ricon + "'></a>"
                 )
-                convert_image_2_base64(ico[nico][0], token)
 
             else:
-                print("<img src='" + resource_folder + ico + ".png'>")
+                ricon = resource_folder + ico + ".png"
+                if embedall:
+                    ricon = return_image_2_base64(ricon)
+                print("<img src='" + ricon + "'>")
     else:
         if type(data) == dict:
             ndata = list(data.keys())[0]
-            print("<img src='" + resource_folder + ndata + ".png'>")
+            ricon = resource_folder + ndata + ".png"
+            if embedall:
+                ricon = return_image_2_base64(ricon)
+
+            print("<img src='" + ricon + "'>")
         else:
-            print("<a href='script'><img src='" + resource_folder + data + ".png'></a>")
+            ricon = resource_folder + data + ".png"
+            if embedall:
+                ricon = return_image_2_base64(ricon)
+            print("<a href='script'><img src='" + ricon + "'></a>")
 
 
 def main():
@@ -290,6 +341,9 @@ def main():
         help="Directory to get images, default is imgs/",
         default="imgs/",
     )
+    parser.add_argument("-e", "--embed", help="Embed only e screenshots to be practical", action="store_true")
+    parser.add_argument("--embedall", help="Embed all the resources to create a single page document",
+                        action="store_true")
     parser.add_argument("--iocs", help="Write also IoCs", action="store_true")
     parser.add_argument("--ttps", help="Write also TTPs", action="store_true")
     args = parser.parse_args()
@@ -303,20 +357,19 @@ def main():
         sys.stdout = f
 
     try:
-        with open(args.yamfile,"r") as fichero:
+        with open(args.yamlfile, "r") as fichero:
             doc = yaml.load(fichero, Loader=yaml.BaseLoader)
 
     except FileNotFoundError:
         print("Error opening the file")
         sys.exit(-1)
 
-
     diagrama = doc["diagrama"]
     # print (type(diagrama))
     # print (diagrama)
 
     mdate = doc.get("fecha", " ")
-    mtitle = doc.get("title", "Here is your title!")
+    mtitle = doc.get("title", "Your awesome CTI attack diagram")
 
     print(HEADER)
     print(
@@ -335,7 +388,7 @@ def main():
     # print numbers
     num = 1
     print('<tr class="icons">')
-    for a in diagrama[:-1]:
+    for _ in diagrama[:-1]:
         print("<td>")
         print(num)
         num += 1
@@ -346,15 +399,20 @@ def main():
     print("</tr>")
 
     # print icons
+
+    resource_flecha = resource_folder + "flecha.png"
+    if args.embedall:
+        resource_flecha = return_image_2_base64(resource_flecha)
+
     print('<tr class="thick">')
     for a in diagrama[:-1]:
         print("<td>")
         ticon = a.get("icon", "default")
-        print_icons(resource_folder, ticon)
-        print("</td><td><img src='" + resource_folder + "flecha.png'> </td>")
+        print_icons(resource_folder, ticon, args.embed, args.embedall)
+        print("</td><td><img src='" + resource_flecha + "'> </td>")
     print("<td>")
     ticon = diagrama[-1].get("icon", "default")
-    print_icons(resource_folder, ticon)
+    print_icons(resource_folder, ticon, args.embed, args.embedall)
     print("</td>")
     print("</tr>")
 
@@ -415,8 +473,12 @@ def main():
     print("<tr>")
     for a in diagrama[:-1]:
         print("<td></td><td></td>")
+
+    resource_logo = resource_folder + 'logo.png'
+    if args.embedall:
+        resource_logo = return_image_2_base64(resource_logo)
     print(
-        '<td style="text-align:right"><img src="' + resource_folder + 'logo.png"></td>'
+        '<td style="text-align:right"><img src="' + resource_logo + '"></td>'
     )
     print("</tr>")
     print("</table>")
